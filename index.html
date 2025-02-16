@@ -462,12 +462,57 @@
     color: #00aaff;
 }
 
-    
+ /* Tela de Login */
+ #login-screen {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100vh; 
+            background: rgba(0, 0, 0, 0.9); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            z-index: 9999;
+        }
+
+        /* Esconder conteúdo antes do login */
+        #main-content {
+            display: none;
+        }
+
+        /* Estilização do Formulário de Login */
+        #login-screen input {
+            padding: 10px; 
+            margin: 10px;
+        }
+
+        #login-screen button {
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+        }   
     </style>
 </head>
 
 <body>
-    <!--widget lateral-->
+
+  <!-- Tela de Login -->
+  <div id="login-screen">
+    <h2>Faça Login</h2>
+    <input type="text" id="username" placeholder="Usuário">
+    <input type="password" id="password" placeholder="Senha">
+    <button onclick="login()">Entrar</button>
+</div>
+
+<!-- Conteúdo principal que será carregado após o login -->
+<div id="main-content">
+    <h1>Bem-vindo ao SO</h1>
+    <p>Sistema operacional simulado.</p>
+    <button onclick="logout()">Sair</button>
+</div>
 
     <!-- Widget Bloco de Notas -->
     <div id="notepad-widget" class="notepad-container">
@@ -875,8 +920,48 @@ function toggleNotepad() {
         }
     }
     </script>
-    
-    
+    <!--Scriprt para login-->
+     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (localStorage.getItem("authenticated") === "true") {
+                mostrarConteudo();
+            } else {
+                mostrarLogin();
+            }
+        });
+
+        function login() {
+            const user = document.getElementById("username").value;
+            const pass = document.getElementById("password").value;
+
+            // Usuário e senha fixos
+            if (user === "USFDUTRA" && pass === "DUTRA2025") {
+                localStorage.setItem("authenticated", "true");
+                alert("Login bem-sucedido!");
+                mostrarConteudo();
+                location.reload(); // Força atualização para garantir exibição correta
+            } else {
+                alert("Usuário ou senha incorretos!");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("authenticated");
+            mostrarLogin();
+            location.reload(); // Atualiza a página ao sair
+        }
+
+        function mostrarConteudo() {
+            document.getElementById("login-screen").style.display = "none";
+            document.getElementById("main-content").style.display = "block";
+        }
+
+        function mostrarLogin() {
+            document.getElementById("login-screen").style.display = "flex";
+            document.getElementById("main-content").style.display = "none";
+        }
+    </script>
+
     
 <button id="notepad-minimized" onclick="toggleNotepad()" style="
     position: fixed;
