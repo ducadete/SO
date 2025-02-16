@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface Windows 11</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: url('https://source.unsplash.com/random/1920x1080?technology') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 55px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            justify-content: space-between;
+        }
+
+        .taskbar-icons {
+            display: flex;
+            gap: 20px;
+            color: white;
+        }
+
+        .start-menu-container {
+            position: fixed;
+            bottom: 65px;
+            left: 15px;
+            width: 380px;
+            height: 500px;
+            background: rgba(30, 30, 30, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            display: none;
+            color: white;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .start-menu-container p {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .start-menu-container p:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .search-bar {
+            width: 220px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: white;
+            border: none;
+            outline: none;
+            transition: background 0.3s;
+        }
+
+        .search-bar:focus {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .clock {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .calendar-container {
+            position: fixed;
+            bottom: 65px;
+            right: 15px;
+            width: 340px;
+            background: rgba(30, 30, 30, 0.95);
+            border-radius: 12px;
+            padding: 20px;
+            display: none;
+            color: white;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .calendar-header button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .calendar-header button:hover {
+            color: #00aaff;
+        }
+
+        .calendar-weekdays,
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(40px, 1fr));
+            text-align: center;
+            gap: 5px;
+        }
+
+        .calendar-days div {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+        }
+
+        .calendar-days div {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .calendar-days div:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 70px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 15px;
+        }
+
+        .sidebar i {
+            color: white;
+            font-size: 26px;
+            margin: 25px 0;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.2s;
+        }
+
+        .sidebar i:hover {
+            color: #00aaff;
+            transform: scale(1.1);
+        }
+
+        .health-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.5;
+            width: 180px;
+            height: 180px;
+        }
+
+        /* Estilização da Janela do Explorador */
+        .explorer-window {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 300px;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        /* Cabeçalho da Janela */
+        .explorer-header {
+            background: #606364;
+            color: white;
+            padding: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: grab;
+        }
+
+        /* Botão Fechar */
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: red;
+        }
+
+        /* Conteúdo da Janela */
+        .explorer-content {
+            padding: 10px;
+        }
+
+        .explorer-content p {
+            background: white;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .explorer-content p:hover {
+            background: #ddd;
+        }
+
+        .custom-window {
+            position: absolute;
+            width: 400px;
+            height: 300px;
+            background: white;
+            border: 1px solid black;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            top: 50px;
+            left: 50px;
+        }
+
+        .window-header {
+            background: #606364;
+            color: white;
+            padding: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: grab;
+        }
+
+        .window-controls button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .window-controls button:hover {
+            color: red;
+        }
+
+        .window-content {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .maximized {
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        #taskbar-windows {
+            display: flex;
+            gap: 10px;
+            padding: 5px;
+        }
+
+        #taskbar-menu {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+        }
+
+        #taskbar-icon {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        #taskbar-icon:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .taskbar-dropdown {
+            display: none;
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            background: rgba(30, 30, 30, 0.95);
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            min-width: 180px;
+            color: white;
+        }
+
+        .taskbar-dropdown p {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin: 5px 0;
+            text-align: center;
+        }
+
+        .taskbar-dropdown p:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .today {
+            background-color: red !important;
+            color: white !important;
+            font-weight: bold;
+            border-radius: 50%;
+            transform: scale(1.2);
+        }
+       
+        .notepad-container {
+        position: fixed;
+        top: 50px;
+        right: 10px;
+        width: 250px;
+        height: 300px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 8px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+        z-index: 1000;
+        padding: 10px;
+        transition: transform 0.3s;
+    }
+    .notepad-header {
+        background: #606364;
+        color: white;
+        padding: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: grab;
+        font-size: 14px;
+    }
+    .notepad-controls button {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .notepad-controls button:hover {
+        color: red;
+    }
+    #notepad-content {
+        flex-grow: 1;
+        border: none;
+        padding: 5px;
+        font-size: 14px;
+        resize: none;
+        outline: none;
+    }
+    .notepad-container button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 5px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .notepad-container button:hover {
+        background: #0056b3;
+    }
+    .search-container {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 5px 10px;
+    transition: background 0.3s;
+}
+
+.search-container:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.search-bar {
+    width: 180px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 14px;
+    padding: 5px;
+}
+
+.search-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 5px;
+}
+
+.search-btn:hover {
+    color: #00aaff;
+}
+
+    
+    </style>
+</head>
+
+<body>
+    <!--widget lateral-->
+
+    <!-- Widget Bloco de Notas -->
+    <div id="notepad-widget" class="notepad-container">
+        <div class="notepad-header">
+            <span>Bloco de Notas</span>
+            <div class="notepad-controls">
+                <button onclick="toggleNotepad()">-</button>
+                <button onclick="closeNotepad()">✖</button>
+            </div>
+        </div>
+        <textarea id="notepad-content" placeholder="Digite suas anotações aqui..."></textarea>
+        <button onclick="clearNotepad()">Limpar</button>
+    </div>
+
+    <!--Sistema de janelas-->
+    <div id="window-container"></div>
+
+    <div class="sidebar">
+        <i class="fas fa-home"></i>
+        <i onclick="openExplorer()" class="fas fa-folder"></i>
+        <i class="fas fa-cog"></i>
+        <i class="fas fa-power-off" onclick="closeWindow()"></i>
+    </div>
+
+    <img src="https://cdn.2rscms.com.br/uploads/678/saude-da-familia.png" alt="Saúde da Família" class="health-icon">
+
+    <div class="taskbar">
+        <div class="start-menu" onclick="toggleStartMenu()">
+            <i class="fa-solid fa-play"></i>
+        </div>
+
+        <div id="taskbar-menu">
+            <button id="taskbar-icon" onclick="toggleTaskbarMenu()">🗂️ Janelas</button>
+            <div id="taskbar-dropdown" class="taskbar-dropdown"></div>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="search-query" class="search-bar" placeholder="Pesquisar no Google...">
+            <button class="search-btn" onclick="searchGoogle()">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        
+        <div class="clock" id="clock" onclick="toggleCalendar()">
+            <i class="fa-solid fa-calendar"></i>
+            <span id="time"></span>
+        </div>
+    </div>
+
+    </div>
+    <div class="calendar-container" id="calendar">
+        <div class="calendar-header">
+            <button onclick="prevMonth()">&#9664;</button>
+            <span id="calendar-month-year"></span>
+            <button onclick="nextMonth()">&#9654;</button>
+        </div>
+        <div class="calendar-weekdays">
+            <div>Dom</div>
+            <div>Seg</div>
+            <div>Ter</div>
+            <div>Qua</div>
+            <div>Qui</div>
+            <div>Sex</div>
+            <div>Sáb</div>
+        </div>
+        <div class="calendar-days" id="calendar-grid"></div>
+    </div>
+    <div>
+        <i class="fa-solid fa-list-check"></i>
+        <span id="time"></span>
+    </div>
+    </div>
+
+    <!-- Janela do Explorador de Arquivos -->
+    <div id="fileExplorer" class="explorer-window">
+        <div class="explorer-header">
+            <span>Explorador de Arquivos</span>
+            <button class="close-btn" onclick="closeExplorer()">✖</button>
+        </div>
+        <div class="explorer-content">
+            <p>📂 Documentos</p>
+            <p>📁 Downloads</p>
+            <p>📂 Imagens</p>
+            <p>📂 Música</p>
+            <p>📂 Vídeos</p>
+        </div>
+    </div>
+
+    <!-- menu interativo-->
+    <div class="start-menu-container" id="startMenu">
+        <p button onclick="openWindow('rotina.html')">Acolhimento</button></p>
+        <p onclick="openExplorer()">📂 Explorador de Arquivos</p>
+        <p>⚙️ Configurações</p>
+        <p>🌐 Navegador</p>
+        <p>🔌 Desligar</p>
+    </div>
+    <!-- função relogio e calendario -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Atualiza o relógio a cada segundo
+            function updateClock() {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                document.getElementById('time').textContent = `${hours}:${minutes}`;
+            }
+            setInterval(updateClock, 1000);
+            updateClock();
+
+            // Elementos do calendário
+            const calendar = document.getElementById('calendar');
+            const clockButton = document.getElementById('clock');
+
+            function toggleCalendar() {
+                if (calendar.style.display === 'block') {
+                    calendar.style.opacity = '0';
+                    setTimeout(() => { calendar.style.display = 'none'; }, 200);
+                } else {
+                    calendar.style.display = 'block';
+                    setTimeout(() => { calendar.style.opacity = '1'; }, 10);
+                    generateCalendar(currentDate);
+                }
+            }
+
+            function closeCalendar(event) {
+                if (!calendar.contains(event.target) && !clockButton.contains(event.target)) {
+                    calendar.style.opacity = '0';
+                    setTimeout(() => { calendar.style.display = 'none'; }, 200);
+                }
+            }
+
+            function generateCalendar(date) {
+                const calendarGrid = document.getElementById('calendar-grid');
+                const calendarMonthYear = document.getElementById('calendar-month-year');
+                calendarGrid.innerHTML = '';
+
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                calendarMonthYear.textContent = new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric' }).format(date);
+
+                const firstDay = new Date(year, month, 1).getDay();
+                const lastDate = new Date(year, month + 1, 0).getDate();
+                const today = new Date();
+                const todayDate = today.getDate();
+                const todayMonth = today.getMonth();
+                const todayYear = today.getFullYear();
+
+                // Adiciona os espaços em branco antes do primeiro dia do mês
+                for (let i = 0; i < firstDay; i++) {
+                    const emptyCell = document.createElement('div');
+                    calendarGrid.appendChild(emptyCell);
+                }
+
+                // Adiciona os dias do mês
+                for (let day = 1; day <= lastDate; day++) {
+                    const dayCell = document.createElement('div');
+                    dayCell.textContent = day;
+
+                    // Verifica se é o dia atual
+                    if (day === todayDate && month === todayMonth && year === todayYear) {
+                        dayCell.classList.add('today');
+                    }
+
+                    calendarGrid.appendChild(dayCell);
+                }
+            }
+
+
+
+            let currentDate = new Date();
+
+            function prevMonth() {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                generateCalendar(currentDate);
+            }
+
+            function nextMonth() {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                generateCalendar(currentDate);
+            }
+
+            // Inicializa o calendário ao carregar a página
+            generateCalendar(currentDate);
+
+            // Adiciona eventos aos botões de navegação do calendário
+            document.querySelector('.calendar-header button:nth-child(1)').addEventListener('click', prevMonth);
+            document.querySelector('.calendar-header button:nth-child(3)').addEventListener('click', nextMonth);
+
+            // Eventos para abrir e fechar o calendário
+            clockButton.addEventListener('click', toggleCalendar);
+            document.addEventListener('click', closeCalendar);
+        });
+
+    </script>
+
+    <!-- Função abrir o menu -->
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const startMenu = document.getElementById('startMenu');
+            const startButton = document.querySelector('.start-menu');
+
+            function toggleStartMenu() {
+                if (startMenu.style.display === 'block') {
+                    startMenu.style.opacity = '0';
+                    setTimeout(() => { startMenu.style.display = 'none'; }, 200);
+                } else {
+                    startMenu.style.display = 'block';
+                    setTimeout(() => { startMenu.style.opacity = '1'; }, 10);
+                }
+            }
+
+            function closeStartMenu(event) {
+                if (!startMenu.contains(event.target) && !startButton.contains(event.target)) {
+                    startMenu.style.opacity = '0';
+                    setTimeout(() => { startMenu.style.display = 'none'; }, 200);
+                }
+            }
+
+            startButton.addEventListener('click', toggleStartMenu);
+            document.addEventListener('click', closeStartMenu);
+        });
+    </script>
+    <!-- Função quando clicar no botãopower ele fechar a janela -->
+    <script>
+        function closeWindow() {
+            if (confirm("Deseja realmente fechar esta página?")) {
+                window.open('', '_self').close();
+            }
+        }
+    </script>
+
+    <!--script explorador de arquivo -->
+    <script>
+        // Função para abrir o Explorador de Arquivos
+        function openExplorer() {
+            const explorer = document.getElementById('fileExplorer');
+            explorer.style.display = 'flex';
+        }
+
+        // Função para fechar o Explorador de Arquivos
+        function closeExplorer() {
+            document.getElementById('fileExplorer').style.display = 'none';
+        }
+
+        // Permitir que a janela seja arrastável
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        document.querySelector('.explorer-header').addEventListener('mousedown', (event) => {
+            isDragging = true;
+            offsetX = event.clientX - document.getElementById('fileExplorer').offsetLeft;
+            offsetY = event.clientY - document.getElementById('fileExplorer').offsetTop;
+        });
+
+        document.addEventListener('mousemove', (event) => {
+            if (isDragging) {
+                const explorer = document.getElementById('fileExplorer');
+                explorer.style.left = `${event.clientX - offsetX}px`;
+                explorer.style.top = `${event.clientY - offsetY}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+    </script>
+    <!-- Script para sistema de janela-->
+    <script>
+        let windowCount = 0;
+        let minimizedWindows = [];
+
+        function openWindow(file) {
+            windowCount++;
+            const windowId = `window-${windowCount}`;
+
+            const windowDiv = document.createElement('div');
+            windowDiv.classList.add('custom-window');
+            windowDiv.id = windowId;
+            windowDiv.innerHTML = `
+                <div class="window-header" onmousedown="startDrag(event, '${windowId}')">
+                    <span>${file}</span>
+                    <div class="window-controls">
+                        <button onclick="minimizeWindow('${windowId}', '${file}')">🗕</button>
+                        <button onclick="maximizeWindow('${windowId}')">🗖</button>
+                        <button onclick="closeWindow('${windowId}')">✖</button>
+                    </div>
+                </div>
+                <iframe src="${file}" class="window-content"></iframe>
+            `;
+
+            document.getElementById('window-container').appendChild(windowDiv);
+        }
+
+        function closeWindow(id) {
+            document.getElementById(id).remove();
+            minimizedWindows = minimizedWindows.filter(win => win.id !== id);
+            updateTaskbarMenu();
+        }
+
+        function minimizeWindow(id, file) {
+            document.getElementById(id).style.display = 'none';
+
+            // Se já estiver na lista de janelas minimizadas, não adiciona novamente
+            if (!minimizedWindows.some(win => win.id === id)) {
+                minimizedWindows.push({ id, file });
+            }
+
+            updateTaskbarMenu();
+        }
+
+        function restoreWindow(id) {
+            document.getElementById(id).style.display = 'flex';
+            minimizedWindows = minimizedWindows.filter(win => win.id !== id);
+            updateTaskbarMenu();
+        }
+
+        function toggleTaskbarMenu() {
+            const dropdown = document.getElementById('taskbar-dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function updateTaskbarMenu() {
+            const dropdown = document.getElementById('taskbar-dropdown');
+            dropdown.innerHTML = '';
+
+            if (minimizedWindows.length === 0) {
+                dropdown.innerHTML = '<p>Nenhuma janela minimizada</p>';
+            } else {
+                minimizedWindows.forEach(win => {
+                    const p = document.createElement('p');
+                    p.innerText = win.file;
+                    p.onclick = () => restoreWindow(win.id);
+                    dropdown.appendChild(p);
+                });
+            }
+        }
+
+        function maximizeWindow(id) {
+            const windowDiv = document.getElementById(id);
+            if (windowDiv.classList.contains('maximized')) {
+                windowDiv.classList.remove('maximized');
+                windowDiv.style.width = '400px';
+                windowDiv.style.height = '300px';
+            } else {
+                windowDiv.classList.add('maximized');
+                windowDiv.style.width = '100vw';
+                windowDiv.style.height = '100vh';
+            }
+        }
+
+        function startDrag(event, id) {
+            const windowDiv = document.getElementById(id);
+            let shiftX = event.clientX - windowDiv.getBoundingClientRect().left;
+            let shiftY = event.clientY - windowDiv.getBoundingClientRect().top;
+
+            function moveAt(pageX, pageY) {
+                windowDiv.style.left = pageX - shiftX + 'px';
+                windowDiv.style.top = pageY - shiftY + 'px';
+            }
+
+            function onMouseMove(event) {
+                moveAt(event.pageX, event.pageY);
+            }
+
+            document.addEventListener('mousemove', onMouseMove);
+
+            windowDiv.onmouseup = function () {
+                document.removeEventListener('mousemove', onMouseMove);
+                windowDiv.onmouseup = null;
+            };
+        }
+    </script>
+
+<!--Script para widget lateral-->
+<script>
+function toggleNotepad() {
+    const notepad = document.getElementById('notepad-widget');
+    const minimizeBtn = document.getElementById('notepad-minimized');
+
+    if (notepad.style.display === 'none') {
+        notepad.style.display = 'flex';
+        minimizeBtn.style.display = 'none'; // Esconde o botão quando reabre
+    } else {
+        notepad.style.display = 'none';
+        minimizeBtn.style.display = 'block'; // Mostra botão quando minimiza
+    }
+}
+
+
+    function closeNotepad() {
+        document.getElementById('notepad-widget').style.display = 'none';
+    }
+
+    function clearNotepad() {
+        document.getElementById('notepad-content').value = '';
+    }
+</script>
+
+<script>
+    function searchGoogle() {
+        const query = document.getElementById("search-query").value.trim();
+        if (query) {
+            window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+        }
+    }
+    </script>
+    
+    
+    
+<button id="notepad-minimized" onclick="toggleNotepad()" style="
+    position: fixed;
+    bottom: 15px;
+    right: 150px;
+    display: none;
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+">📄 Bloco de Notas</button>
+
+</body>
+
+</html>

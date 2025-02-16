@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Formulário rotina</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <style>
+       body {
+      font-family: Arial, sans-serif;
+      background-color: #F1F1F1;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      display: flex;
+      background-color: #384ca7;
+      padding: 10px;
+      align-items: center;
+      box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.1);
+      justify-content: space-around;
+    }
+
+    .navbar a {
+      background-color: #012b7a;
+      color: #ffffff;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    .navbar a:hover {
+      background-color: #D1D1D1;
+    }
+
+h1 {
+  text-align: center;
+  font-size: 2.5em;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+form {
+  background-color: #fff;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+form p {
+  font-size: 1.2em;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+form input[type="text"],
+form input[type="email"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 1.2em;
+}
+
+form input[type="radio"],
+form input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+form label {
+  font-size: 1.2em;
+  display: block;
+  margin-bottom: 10px;
+}
+
+form button[type="submit"],
+form button[type="reset"],
+form button[type="button"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+form button[type="submit"]:hover,
+form button[type="reset"]:hover,
+form button[type="button"]:hover {
+  background-color: #0062cc;
+}
+</style>
+</head>
+<body>
+	<h1>Formulário de Rotina</h1>
+	<form>
+
+	<p>Queixa principal?</p>
+  <input type="text" name="peso">
+
+  
+  <p>Qual medicação?</p>
+	<div style="display: flex; flex-wrap: wrap;">
+		<div style="flex: 1 1 30%;">
+            <label>
+				<input type="checkbox"  name="med[]" value="AAS">
+				AAS
+			</label><br>
+			<label>
+				<input type="checkbox"  name="med[]" value="Atenolol">
+				Atenolol
+			</label><br>
+			<label>
+				<input type="checkbox"  name="med[]" value="captopril">
+				captopril
+			</label><br>
+            <label>
+				<input type="checkbox"  name="med[]" value="Enalapril">
+				Enalapril
+			</label><br>
+            <label>
+				<input type="checkbox"  name="med[]" value="Furosemida">
+				Furosemida
+			</label><br>
+			<label>
+				<input type="checkbox"  name="med[]" value="Hidroclorotiazida">
+				Hidroclorotiazida
+			</label><br>
+            <label>
+				<input type="checkbox"  name="med[]" value="Losartana">
+				Losartana
+			</label><br>
+			<label>
+				<input type="checkbox" name="med[]" value="Propranolol">
+				Propranolol
+			</label><br>
+		</div>
+		<div style="flex: 1 1 30%;">
+            <label>
+				<input type="checkbox"  name="med[]" value="Glibenclamida">
+				Glibenclamida
+			</label><br>
+			<label>
+				<input type="checkbox"  name="med[]" value="Glicazida">
+				Glicazida
+			</label><br>
+            <label>
+				<input type="checkbox"  name="med[]" value="Insulina NPH">
+				Insulina NPH
+			</label><br>
+			<label>
+				<input type="checkbox"  name="med[]" value="Metformina">
+				Metformina
+			</label><br>
+		</div>
+        <div style="flex: 1 1 30%;">
+            <label>
+				<input type="checkbox"  name="med[]" value="Amiodarona">
+				Amiodarona
+			</label><br>
+            <label>
+				<input type="checkbox"  name="med[]" value="Carvedilol">
+				Carvedilol
+			</label><br>
+            <label>
+				<input type="checkbox"  name="med[]" value="Levotiroxina">
+				Levotiroxina
+			</label><br>
+            <label>
+				<input type="checkbox"  name="med[]" value="Omeprazol">
+				Omeprazol
+			</label><br>
+            <label>
+				<input type="checkbox"  name="med[]" value="Sinvastatina">
+				Sinvastatina
+			</label><br>
+		</div>
+        </div style="display: flex; flex-wrap: wrap;">
+
+    <p>Outra medicação?</p>
+    <input type="text" name="medicacao">
+      
+
+  <p>Possui algum outro problema de saúde?</p>
+  <label><input type="checkbox" name="saude[]" value="HAS"> HAS</label>
+  <label><input type="checkbox" name="saude[]" value="DM"> DM</label>
+  <label><input type="checkbox" name="saude[]" value="Hipercolesterolemia "> Hipercolesterolemia</label>
+  
+  <p>outro problema de saúde não listado?</p>
+  <input type="text" name="listado"></p>
+
+  <p>Possui exames a serem avaliado?</p>
+  <label><input type="radio" name="exames" value="Sim"> Sim</label>
+  <label><input type="radio" name="exames" value="Não"> Não</label></p>
+
+  <p>Quando foi o ultimo exame de sangue o Sr fez?</p>
+  <input type="text" name="ex_sangue">
+
+	<p>Qual é a pressão arterial?</p>
+  <input type="text" name="pressao">
+
+  <p>Qual é a glicemia capilar? (se diabético)</p>
+	<input type="text" name="glicemia_capilar">
+
+  <p>Qual é o peso?</p>
+	<input type="text" name="av_peso">
+
+  <p>Qual é a temperatura?</p>
+	<input type="text" name="temperatura">
+
+	<p>Observações</p>
+	<input type="text" name="observacoes"></p>
+    
+      <p>Encaminhado para:</p>
+       <label><input type="radio" name="encaminhado" value="Médico"> Médico</label>
+      <label><input type="radio" name="encaminhado" value="Enfermeiro"> Enfermeiro</label></p>
+	
+  <p><span style="color: red;"><strong>Verificar se o paciente já possui consulta agendada</strong></span></p>
+	
+  <br><br>
+   <button type="button" onclick="exibirRespostas()">Copiar respostas</button>
+   <button type="button" onclick="limparFormulario()">Limpar</button>
+   <button type="button" onclick="avaliar()">Avaliar</button>
+
+
+</form>
+<script>
+function exibirRespostas() {
+  // Adicione a frase aqui
+  const frase = 'Paciente comparece a USF Vila São Paulo em demanda espontânea:';
+
+  // Obtenha as respostas do formulário
+  const peso = document.querySelector('input[name="peso"]').value;
+  const med = Array.from(document.querySelectorAll('input[name="med[]"]:checked')).map(el => el.value);  
+  const medicacao = document.querySelector('input[name="medicacao"]').value;
+  const saude = Array.from(document.querySelectorAll('input[name="saude[]"]:checked')).map(el => el.value);  
+  const listado = document.querySelector('input[name="listado"]').value;
+  const exames  = document.querySelector('input[name="exames"]:checked').value;
+  const ex_sangue = document.querySelector('input[name="ex_sangue"]').value;
+  const pressao = document.querySelector('input[name="pressao"]').value;
+  const glicemia_capilar = document.querySelector('input[name="glicemia_capilar"]').value;
+  const av_peso = document.querySelector('input[name="av_peso"]').value;
+  const temperatura = document.querySelector('input[name="temperatura"]').value;
+  const encaminhado  = document.querySelector('input[name="encaminhado"]:checked').value;
+  const observacoes = document.querySelector('input[name="observacoes"]').value;
+
+  // Crie a mensagem com as respostas do formulário
+  let mensagem = frase;
+
+  if (peso) {
+    mensagem += `\nQueixa principal? ${peso}`;
+  }
+
+  if (med.length > 0) { 
+    mensagem += `\nQual(is) medicção(ões): ${med.join(', ')}`; 
+  }
+
+  if (medicacao) {
+    mensagem += `, ${medicacao}`;
+  }
+
+  if (saude.length > 0) { 
+    mensagem += `\nPossui algum problema de saúde: ${saude.join(', ')}`; 
+  }
+
+  if (listado.length > 0) { 
+    mensagem += `,${listado}`; 
+  }
+  if (exames) {
+    mensagem += `\nPossui exames a serem avaliado? ${exames}`;
+  }
+
+  if (ex_sangue) {
+    mensagem += `\nQuando foi o ultimo exame de sangue o Sr fez? ${ex_sangue}`;
+  }
+
+  if (pressao) {
+    mensagem += `\nPressão: ${pressao}`;
+  }
+
+  if (glicemia_capilar) {
+    mensagem += `\nGlicemia: ${glicemia_capilar}`;
+  }
+
+  if (av_peso) {
+    mensagem += `\nPeso: ${av_peso}`;
+  }
+
+  if (temperatura) {
+    mensagem += `\nTemperatura: ${temperatura}`;
+  }
+  
+  if (encaminhado) {
+    mensagem += `\nEncaminhado para ${encaminhado}`;
+  }
+  
+  if (observacoes) {
+    mensagem += `\nObservações: ${observacoes}`;
+  }
+
+  // Exiba a mensagem com as respostas do formulário
+  const popup = window.open('', 'Respostas', 'width=400,height=400');
+  popup.document.write(`<pre>${mensagem}</pre>`);
+  popup.document.close();
+  popup.focus();
+  popup.document.execCommand('selectAll');
+  popup.document.execCommand('copy');
+}
+</script>
+
+
+<script>
+function limparFormulario() {
+  document.querySelector('form').reset();
+}
+</script>
